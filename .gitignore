@@ -10,6 +10,7 @@ lerna-debug.log*
 # production
 build
 node_modules
+temp
 dist
 dist-ssr
 *.local
