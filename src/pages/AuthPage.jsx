@@ -9,9 +9,11 @@ const AuthPage = () => {
   // 'login', 'register', or 'otp'
   const [currentView, setCurrentView] = useState("register");
   const [userIdentifier, setUserIdentifier] = useState("");
+  const [otpOrigin, setOtpOrigin] = useState("");
 
-  const handleAuthSuccess = (identifier) => {
+  const handleAuthSuccess = (identifier, origin) => {
     setUserIdentifier(identifier);
+    setOtpOrigin(origin);
     setCurrentView("otp");
   };
 
@@ -70,17 +72,21 @@ const AuthPage = () => {
           {currentView === "register" && (
             <Register
               onSwitchToLogin={() => setCurrentView("login")}
-              onRegisterSuccess={handleAuthSuccess}
+              onRegisterSuccess={(identifier) =>
+                handleAuthSuccess(identifier, "register")
+              }
             />
           )}
           {currentView === "login" && (
             <Login
               onSwitchToRegister={() => setCurrentView("register")}
-              onLoginSuccess={handleAuthSuccess}
+              onLoginSuccess={(identifier) =>
+                handleAuthSuccess(identifier, "login")
+              }
             />
           )}
           {currentView === "otp" && (
-            <OtpVerification identifier={userIdentifier} />
+            <OtpVerification identifier={userIdentifier} origin={otpOrigin} />
           )}
         </Box>
       </Paper>

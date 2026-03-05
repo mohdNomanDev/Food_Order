@@ -1,33 +1,9 @@
 import React from "react";
 import { TextField, Button, Typography, Box, Divider } from "@mui/material";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import api from "../utils/api";
-
-const validationSchema = Yup.object({
-  identifier: Yup.string().required("Phone Number or Email is required"),
-});
+import { useLoginForm } from "../hooks/useAuthForms";
 
 const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
-  const formik = useFormik({
-    initialValues: { identifier: "" },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      try {
-        // API call to Node.js backend to initiate login
-        
-        const res = await api.post("/auth/login/send-otp", {
-          identifier: values.identifier,
-        });
-        console.log(res);
-        console.log("Login Data:", values);
-        // Simulate success and move to OTP screen
-        onLoginSuccess(values.identifier);
-      } catch (err) {
-        alert(err.response?.data?.message || "Login failed");
-      }
-    },
-  });
+  const { formik } = useLoginForm(onLoginSuccess);
 
   return (
     <Box

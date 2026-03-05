@@ -34,7 +34,7 @@ api.interceptors.response.use(
     // Auto logout if unauthorized
     if (error.response?.status === 401) {
       console.warn("Unauthorized. Redirecting...");
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
     }
 
     return Promise.reject(error);

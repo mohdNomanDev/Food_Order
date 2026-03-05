@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
+import { useOtpForm } from "../hooks/useAuthForms";
 
-const validationSchema = Yup.object({
-  otp: Yup.string()
-    .length(6, "OTP must be exactly 6 digits")
-    .matches(/^[0-9]+$/, "Must be only digits")
-    .required("OTP is required"),
-});
-
-const OtpVerification = ({ identifier }) => {
-  const navigate = useNavigate();
+const OtpVerification = ({ identifier, origin }) => {
   const [timer, setTimer] = useState(25);
   const [isResendActive, setIsResendActive] = useState(false);
+
+  const { formik } = useOtpForm(identifier, origin);
 
   // ⏳ Countdown Logic
   useEffect(() => {
@@ -31,28 +23,10 @@ const OtpVerification = ({ identifier }) => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const formik = useFormik({
-    initialValues: { otp: "" },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const res = await api.post("/auth/login/verify-otp", {
-          identifier,
-          otp: values.otp,
-        });
-
-        console.log(res);
-        navigate("/home");
-      } catch (error) {
-        alert(error.response?.data?.message || "OTP verification failed");
-      }
-    },
-  });
-
   // 🔁 Resend OTP
   const handleResend = async () => {
     try {
-      await api.post("/auth/login/send-otp", { identifier });
+      await api.post("/auth/login/otp", { identifier });
 
       setTimer(25);
       setIsResendActive(false);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TextField,
   Button,
@@ -8,52 +8,10 @@ import {
   FormControlLabel,
   Divider,
 } from "@mui/material";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import api from "../utils/api";
-
-const validationSchema = Yup.object({
-  fullName: Yup.string().required("Please enter a valid name"),
-  phoneNumber: Yup.string()
-    .matches(/^[0-9]+$/, "Must be only digits")
-    .min(10, "Invalid Phone Number")
-    .required("Phone Number is required"),
-  terms: Yup.boolean().oneOf(
-    [true],
-    "You must accept the terms and conditions",
-  ),
-});
+import { useRegisterForm } from "../hooks/useAuthForms";
 
 const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
-  const [error, setError] = useState("");
-
-  const formik = useFormik({
-    initialValues: { fullName: "", phoneNumber: "", terms: false },
-    validationSchema: validationSchema,
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        // API call to your Node.js backend
-        setError(""); // Clear previous errors
-        const res = await api.post("/auth/register", {
-          name: values.fullName,
-          phone: values.phoneNumber,
-          terms: values.terms,
-        });
-
-        
-        resetForm(); // Clear form after successful registration
-
-        console.log(res);
-        console.log("Registration Data:", values);
-        // Simulate backend success and move to OTP
-        onRegisterSuccess(values.phoneNumber);
-      } catch (err) {
-        setError(err.response?.data?.message || "Registration failed");
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
+  const { formik, error } = useRegisterForm(onRegisterSuccess);
 
   return (
     <Box
