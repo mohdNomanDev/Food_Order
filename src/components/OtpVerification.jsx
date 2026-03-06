@@ -5,13 +5,18 @@ import { useOtpForm } from "../hooks/useAuthForms";
 import AuthButton from "./common/AuthButton";
 import AuthInput from "./common/AuthInput";
 
+/**
+ * OtpVerification Component
+ * Handles the input of the 6-digit OTP and includes resend logic with a countdown timer.
+ */
 const OtpVerification = ({ identifier, origin }) => {
-  const [timer, setTimer] = useState(25);
+  const [timer, setTimer] = useState(25); // Resend timer starts at 25 seconds
   const [isResendActive, setIsResendActive] = useState(false);
 
+  // Formik hook specialized for OTP verification
   const { formik } = useOtpForm(identifier, origin);
 
-  // ⏳ Countdown Logic
+  // ⏳ Countdown Logic: Decrements every second until it reaches 0
   useEffect(() => {
     if (timer === 0) {
       setIsResendActive(true);
@@ -25,12 +30,14 @@ const OtpVerification = ({ identifier, origin }) => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  // 🔁 Resend OTP
+  /**
+   * Triggers a new OTP request to the backend.
+   */
   const handleResend = async () => {
     try {
       await api.post("/auth/login/otp", { identifier });
 
-      setTimer(25);
+      setTimer(25); // Reset timer
       setIsResendActive(false);
       formik.resetForm();
 
@@ -40,6 +47,9 @@ const OtpVerification = ({ identifier, origin }) => {
     }
   };
 
+  /**
+   * Helper to display seconds in 00:SS format.
+   */
   const formatTime = (seconds) => {
     return `00:${seconds < 10 ? "0" + seconds : seconds}`;
   };
@@ -59,6 +69,7 @@ const OtpVerification = ({ identifier, origin }) => {
         <b>{identifier}</b>
       </Typography>
 
+      {/* Styled OTP Input */}
       <AuthInput
         id="otp"
         name="otp"
@@ -82,6 +93,7 @@ const OtpVerification = ({ identifier, origin }) => {
         Verify
       </AuthButton>
 
+      {/* Resend Logic UI */}
       <Typography variant="body2" color="text.secondary">
         {isResendActive ? (
           <span

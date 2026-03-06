@@ -1,5 +1,9 @@
 import * as Yup from "yup";
 
+/**
+ * Validation schema for the Registration form.
+ * Ensures the name is present, phone number has at least 10 digits, and terms are accepted.
+ */
 export const registerSchema = Yup.object({
   fullName: Yup.string().required("Please enter a valid name"),
   phoneNumber: Yup.string()
@@ -12,6 +16,10 @@ export const registerSchema = Yup.object({
   ),
 });
 
+/**
+ * Dynamic validation schema for the Login form.
+ * Adjusts validation rules based on the login mode ('phone' or 'email').
+ */
 export const loginSchema = (mode) =>
   Yup.object({
     identifier:
@@ -25,6 +33,10 @@ export const loginSchema = (mode) =>
             .required("Email is required"),
   });
 
+/**
+ * Validation schema for the OTP form.
+ * Requires exactly 6 digits.
+ */
 export const otpSchema = Yup.object({
   otp: Yup.string()
     .length(6, "OTP must be exactly 6 digits")

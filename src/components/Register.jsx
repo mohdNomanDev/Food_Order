@@ -12,7 +12,12 @@ import AuthInput from "./common/AuthInput";
 import FormLink from "./common/FormLink";
 import GoogleAuthButton from "./common/GoogleAuthButton";
 
+/**
+ * Register Component
+ * Handles new user registration with Name and Phone Number.
+ */
 const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
+  // Formik hook specialized for registration
   const { formik, error } = useRegisterForm(onRegisterSuccess);
 
   return (
@@ -25,8 +30,9 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
         Create an Account
       </Typography>
 
+      {/* Error message from registration attempt */}
       {error && (
-        <Typography color="error" sx={{ mb: 2 }}>
+        <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
           {error}
         </Typography>
       )}
@@ -49,6 +55,7 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
         helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
       />
 
+      {/* Terms and Conditions Checkbox */}
       <FormControlLabel
         control={
           <Checkbox
@@ -78,12 +85,14 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
 
       <Divider sx={{ my: 3 }}>or</Divider>
 
+      {/* Social Registration Option */}
       <GoogleAuthButton
         text="Register with Google"
         onClick={() => console.log("Google Register clicked")}
         sx={{ mb: 3 }}
       />
 
+      {/* Navigation back to Login */}
       <FormLink
         text="Already have an account?"
         linkText="Login to Order"

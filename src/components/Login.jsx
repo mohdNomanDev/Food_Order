@@ -14,10 +14,20 @@ import GoogleAuthButton from "./common/GoogleAuthButton";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import EmailIcon from "@mui/icons-material/Email";
 
+/**
+ * Login Component
+ * Provides a form for users to login using either Phone Number or Email.
+ */
 const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
-  const [loginMode, setLoginMode] = useState("phone"); // 'phone' or 'email'
+  // Local state to toggle between 'phone' and 'email' login methods
+  const [loginMode, setLoginMode] = useState("phone"); 
+  
+  // Formik hook specialized for login
   const { formik } = useLoginForm(onLoginSuccess, loginMode);
 
+  /**
+   * Changes the login method and resets/updates validation accordingly.
+   */
   const handleModeChange = (event, newMode) => {
     if (newMode !== null) {
       setLoginMode(newMode);
@@ -34,6 +44,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
         Login to Order
       </Typography>
 
+      {/* Choiceable login method: Phone or Email */}
       <ToggleButtonGroup
         value={loginMode}
         exclusive
@@ -51,9 +62,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
               bgcolor: "#fdf3eb",
               color: "#E86A33",
               borderColor: "#E86A33",
-              "&:hover": {
-                bgcolor: "#fbe8d8",
-              },
+              "&:hover": { bgcolor: "#fbe8d8" },
             },
           },
         }}
@@ -68,6 +77,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
         </ToggleButton>
       </ToggleButtonGroup>
 
+      {/* Dynamic input field based on loginMode */}
       <AuthInput
         id="identifier"
         name="identifier"
@@ -92,12 +102,14 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
 
       <Divider sx={{ my: 3 }}>or</Divider>
 
+      {/* Social Login Option */}
       <GoogleAuthButton
         text="Login with Google"
         onClick={() => console.log("Google Login clicked")}
         sx={{ mb: 3 }}
       />
 
+      {/* Navigation to Registration */}
       <FormLink
         text="New here?"
         linkText="Create an Account"
