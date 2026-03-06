@@ -33,7 +33,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
       setLoginMode(newMode);
     }
   };
-  console.log("Current Login Mode:", loginMode);
+  
   return (
     <Box
       component="form"

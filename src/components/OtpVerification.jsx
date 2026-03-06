@@ -11,17 +11,14 @@ import AuthInput from "./common/AuthInput";
  */
 const OtpVerification = ({ identifier, origin }) => {
   const [timer, setTimer] = useState(25); // Resend timer starts at 25 seconds
-  const [isResendActive, setIsResendActive] = useState(false);
+  const isResendActive = timer === 0; // Derived state
 
   // Formik hook specialized for OTP verification
   const { formik } = useOtpForm(identifier, origin);
 
   // ⏳ Countdown Logic: Decrements every second until it reaches 0
   useEffect(() => {
-    if (timer === 0) {
-      setIsResendActive(true);
-      return;
-    }
+    if (timer <= 0) return;
 
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
@@ -38,7 +35,6 @@ const OtpVerification = ({ identifier, origin }) => {
       await api.post("/auth/login/otp", { identifier });
 
       setTimer(25); // Reset timer
-      setIsResendActive(false);
       formik.resetForm();
 
       alert("OTP Resent Successfully ✅");
