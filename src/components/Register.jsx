@@ -10,6 +10,7 @@ import { useRegisterForm } from "../hooks/useAuthForms";
 import AuthButton from "./common/AuthButton";
 import AuthInput from "./common/AuthInput";
 import FormLink from "./common/FormLink";
+import GoogleAuthButton from "./common/GoogleAuthButton";
 
 const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
   const { formik, error } = useRegisterForm(onRegisterSuccess);
@@ -76,6 +77,12 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
       </AuthButton>
 
       <Divider sx={{ my: 3 }}>or</Divider>
+
+      <GoogleAuthButton
+        text="Register with Google"
+        onClick={() => console.log("Google Register clicked")}
+        sx={{ mb: 3 }}
+      />
 
       <FormLink
         text="Already have an account?"

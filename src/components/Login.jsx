@@ -4,6 +4,7 @@ import { useLoginForm } from "../hooks/useAuthForms";
 import AuthButton from "./common/AuthButton";
 import AuthInput from "./common/AuthInput";
 import FormLink from "./common/FormLink";
+import GoogleAuthButton from "./common/GoogleAuthButton";
 
 const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
   const { formik } = useLoginForm(onLoginSuccess);
@@ -40,6 +41,12 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
       <AuthButton type="submit">Login</AuthButton>
 
       <Divider sx={{ my: 3 }}>or</Divider>
+
+      <GoogleAuthButton
+        text="Login with Google"
+        onClick={() => console.log("Google Login clicked")}
+        sx={{ mb: 3 }}
+      />
 
       <FormLink
         text="New here?"
