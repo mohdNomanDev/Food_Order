@@ -12,9 +12,18 @@ export const registerSchema = Yup.object({
   ),
 });
 
-export const loginSchema = Yup.object({
-  identifier: Yup.string().required("Phone Number or Email is required"),
-});
+export const loginSchema = (mode) =>
+  Yup.object({
+    identifier:
+      mode === "phone"
+        ? Yup.string()
+            .matches(/^[0-9]+$/, "Must be only digits")
+            .min(10, "Invalid Phone Number")
+            .required("Phone Number is required")
+        : Yup.string()
+            .email("Invalid email address")
+            .required("Email is required"),
+  });
 
 export const otpSchema = Yup.object({
   otp: Yup.string()

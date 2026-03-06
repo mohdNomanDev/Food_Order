@@ -37,14 +37,16 @@ export const useRegisterForm = (onRegisterSuccess) => {
   return { formik, error };
 };
 
-export const useLoginForm = (onLoginSuccess) => {
+export const useLoginForm = (onLoginSuccess, mode) => {
   const formik = useFormik({
     initialValues: { identifier: "" },
-    validationSchema: loginSchema,
+    validationSchema: loginSchema(mode),
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const res = await api.post("/auth/login/otp", {
           identifier: values.identifier,
+          type: mode, // Passing type to API as well
         });
         console.log("Login Success:", res.data);
         onLoginSuccess(values.identifier);

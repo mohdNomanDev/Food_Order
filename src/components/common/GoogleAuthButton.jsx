@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 
-const GoogleAuthButton = ({ text, onClick }) => {
+const GoogleAuthButton = ({ text, onClick, sx }) => {
   return (
     <Button
       fullWidth
@@ -20,6 +20,7 @@ const GoogleAuthButton = ({ text, onClick }) => {
           borderColor: "#bbb",
           bgcolor: "rgba(0,0,0,0.02)",
         },
+        ...sx,
       }}
     >
       {text}
