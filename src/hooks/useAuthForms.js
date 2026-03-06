@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import api from "../utils/api";
 import {
   registerSchema,
@@ -76,6 +77,8 @@ export const useLoginForm = (onLoginSuccess, mode) => {
  */
 export const useOtpForm = (identifier, origin) => {
   const navigate = useNavigate();
+  // Getting login mode from Redux state
+  const { loginMode } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: { otp: "" },
@@ -87,9 +90,11 @@ export const useOtpForm = (identifier, origin) => {
           origin === "register"
             ? "/auth/register/verify"
             : "/auth/login/verify";
+        
         const res = await api.post(endpoint, {
           identifier,
           otp: values.otp,
+          type: loginMode, // Passing type (phone/email) to verification endpoint
         });
 
         console.log("OTP Verification Success:", res.data);

@@ -8,6 +8,7 @@ const initialState = {
   currentView: 'register', // Controls which form is shown: 'login', 'register', or 'otp'
   userIdentifier: '',      // Stores phone number or email for OTP verification
   otpOrigin: '',          // Tracks if OTP was triggered by 'login' or 'register'
+  loginMode: 'phone',     // Tracks if the user used 'phone' or 'email'
   isAuthenticated: false,  // Boolean flag for user login status
   user: null,             // Stores authenticated user data
   loading: false,         // Global loading state for auth actions
@@ -24,9 +25,10 @@ const authSlice = createSlice({
     },
     // Sets data needed for OTP verification and automatically switches to OTP view
     setOtpData: (state, action) => {
-      const { identifier, origin } = action.payload;
+      const { identifier, origin, mode } = action.payload;
       state.userIdentifier = identifier;
       state.otpOrigin = origin;
+      state.loginMode = mode || 'phone';
       state.currentView = 'otp';
     },
     // Resets auth state to default login view
@@ -34,6 +36,7 @@ const authSlice = createSlice({
       state.currentView = 'login';
       state.userIdentifier = '';
       state.otpOrigin = '';
+      state.loginMode = 'phone';
     },
     // Manages the loading state during API calls
     setLoading: (state, action) => {

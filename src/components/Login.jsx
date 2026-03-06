@@ -23,7 +23,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
   const [loginMode, setLoginMode] = useState("phone"); 
   
   // Formik hook specialized for login
-  const { formik } = useLoginForm(onLoginSuccess, loginMode);
+  const { formik } = useLoginForm((identifier) => onLoginSuccess(identifier, loginMode), loginMode);
 
   /**
    * Changes the login method and resets/updates validation accordingly.
@@ -33,7 +33,7 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
       setLoginMode(newMode);
     }
   };
-
+  console.log("Current Login Mode:", loginMode);
   return (
     <Box
       component="form"

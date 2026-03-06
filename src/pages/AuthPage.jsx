@@ -23,9 +23,10 @@ const AuthPage = () => {
    * Handles transition to OTP view after successful login/registration request.
    * @param {string} identifier - User's phone or email.
    * @param {string} origin - Whether it came from 'login' or 'register'.
+   * @param {string} mode - 'phone' or 'email'.
    */
-  const handleAuthSuccess = (identifier, origin) => {
-    dispatch(setOtpData({ identifier, origin }));
+  const handleAuthSuccess = (identifier, origin, mode) => {
+    dispatch(setOtpData({ identifier, origin, mode }));
   };
 
   /**
@@ -44,7 +45,7 @@ const AuthPage = () => {
         <Register
           onSwitchToLogin={() => handleSwitchView("login")}
           onRegisterSuccess={(identifier) =>
-            handleAuthSuccess(identifier, "register")
+            handleAuthSuccess(identifier, "register", "phone") // Register currently only uses phone
           }
         />
       )}
@@ -52,8 +53,8 @@ const AuthPage = () => {
       {currentView === "login" && (
         <Login
           onSwitchToRegister={() => handleSwitchView("register")}
-          onLoginSuccess={(identifier) =>
-            handleAuthSuccess(identifier, "login")
+          onLoginSuccess={(identifier, mode) =>
+            handleAuthSuccess(identifier, "login", mode)
           }
         />
       )}
