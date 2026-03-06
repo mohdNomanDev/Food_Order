@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import api from "../utils/api";
 import { useOtpForm } from "../hooks/useAuthForms";
+import AuthButton from "./common/AuthButton";
+import AuthInput from "./common/AuthInput";
 
 const OtpVerification = ({ identifier, origin }) => {
   const [timer, setTimer] = useState(25);
@@ -57,8 +59,7 @@ const OtpVerification = ({ identifier, origin }) => {
         <b>{identifier}</b>
       </Typography>
 
-      <TextField
-        fullWidth
+      <AuthInput
         id="otp"
         name="otp"
         placeholder="• • • • • •"
@@ -77,20 +78,9 @@ const OtpVerification = ({ identifier, origin }) => {
         sx={{ mb: 3 }}
       />
 
-      <Button
-        fullWidth
-        variant="contained"
-        type="submit"
-        sx={{
-          bgcolor: "#E86A33",
-          "&:hover": { bgcolor: "#d35f2d" },
-          borderRadius: 5,
-          py: 1.5,
-          mb: 2,
-        }}
-      >
+      <AuthButton type="submit" sx={{ mb: 2 }}>
         Verify
-      </Button>
+      </AuthButton>
 
       <Typography variant="body2" color="text.secondary">
         {isResendActive ? (

@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  TextField,
-  Button,
   Typography,
   Box,
   Checkbox,
@@ -9,6 +7,9 @@ import {
   Divider,
 } from "@mui/material";
 import { useRegisterForm } from "../hooks/useAuthForms";
+import AuthButton from "./common/AuthButton";
+import AuthInput from "./common/AuthInput";
+import FormLink from "./common/FormLink";
 
 const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
   const { formik, error } = useRegisterForm(onRegisterSuccess);
@@ -29,26 +30,19 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
         </Typography>
       )}
 
-      <TextField
-        fullWidth
+      <AuthInput
         id="fullName"
         name="fullName"
         label="Full Name"
-        variant="outlined"
-        margin="normal"
         {...formik.getFieldProps("fullName")}
         error={formik.touched.fullName && Boolean(formik.errors.fullName)}
         helperText={formik.touched.fullName && formik.errors.fullName}
-        sx={{ borderRadius: 2 }}
       />
 
-      <TextField
-        fullWidth
+      <AuthInput
         id="phoneNumber"
         name="phoneNumber"
         label="Phone Number"
-        variant="outlined"
-        margin="normal"
         {...formik.getFieldProps("phoneNumber")}
         error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
         helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
@@ -77,31 +71,17 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
         </Typography>
       )}
 
-      <Button
-        fullWidth
-        variant="contained"
-        type="submit"
-        sx={{
-          bgcolor: "#E86A33",
-          "&:hover": { bgcolor: "#d35f2d" },
-          borderRadius: 5,
-          py: 1.5,
-          mt: 2,
-        }}
-      >
+      <AuthButton type="submit" sx={{ mt: 2 }}>
         Sign Up
-      </Button>
+      </AuthButton>
 
       <Divider sx={{ my: 3 }}>or</Divider>
 
-      <Typography
-        align="center"
-        variant="body2"
-        sx={{ cursor: "pointer", color: "text.secondary" }}
+      <FormLink
+        text="Already have an account?"
+        linkText="Login to Order"
         onClick={onSwitchToLogin}
-      >
-        Already have an account? <b>Login to Order</b>
-      </Typography>
+      />
     </Box>
   );
 };

@@ -1,6 +1,9 @@
 import React from "react";
-import { TextField, Button, Typography, Box, Divider } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
 import { useLoginForm } from "../hooks/useAuthForms";
+import AuthButton from "./common/AuthButton";
+import AuthInput from "./common/AuthInput";
+import FormLink from "./common/FormLink";
 
 const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
   const { formik } = useLoginForm(onLoginSuccess);
@@ -15,13 +18,10 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
         Login to Order
       </Typography>
 
-      <TextField
-        fullWidth
+      <AuthInput
         id="identifier"
         name="identifier"
         label="Phone Number or Email"
-        variant="outlined"
-        margin="normal"
         value={formik.values.identifier}
         onChange={formik.handleChange}
         error={formik.touched.identifier && Boolean(formik.errors.identifier)}
@@ -37,30 +37,15 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
         Forgot Password?
       </Typography>
 
-      <Button
-        fullWidth
-        variant="contained"
-        type="submit"
-        sx={{
-          bgcolor: "#E86A33",
-          "&:hover": { bgcolor: "#d35f2d" },
-          borderRadius: 5,
-          py: 1.5,
-        }}
-      >
-        Login
-      </Button>
+      <AuthButton type="submit">Login</AuthButton>
 
       <Divider sx={{ my: 3 }}>or</Divider>
 
-      <Typography
-        align="center"
-        variant="body2"
-        sx={{ cursor: "pointer", color: "text.secondary" }}
+      <FormLink
+        text="New here?"
+        linkText="Create an Account"
         onClick={onSwitchToRegister}
-      >
-        New here? <b>Create an Account</b>
-      </Typography>
+      />
     </Box>
   );
 };
