@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Box, Paper } from "@mui/material";
-import FastfoodIcon from "@mui/icons-material/Fastfood"; // Placeholder for your burger/drink icon
+import FastfoodIcon from "@mui/icons-material/Fastfood";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import OtpVerification from "../components/OtpVerification";
+import { setView, setOtpData } from "../features/auth/authSlice";
 
 const AuthPage = () => {
-  // 'login', 'register', or 'otp'
-  const [currentView, setCurrentView] = useState("register");
-  const [userIdentifier, setUserIdentifier] = useState("");
-  const [otpOrigin, setOtpOrigin] = useState("");
+  const dispatch = useDispatch();
+  const { currentView, userIdentifier, otpOrigin } = useSelector((state) => state.auth);
 
   const handleAuthSuccess = (identifier, origin) => {
-    setUserIdentifier(identifier);
-    setOtpOrigin(origin);
-    setCurrentView("otp");
+    dispatch(setOtpData({ identifier, origin }));
+  };
+
+  const handleSwitchView = (view) => {
+    dispatch(setView(view));
   };
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "#fdf3eb", // Light background matching your design
+        bgcolor: "#fdf3eb",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -50,7 +52,6 @@ const AuthPage = () => {
             transition: "background-color 0.3s",
           }}
         >
-          {/* Placeholder for the graphic in your design */}
           <Box
             sx={{ bgcolor: "#fff", p: 1.5, borderRadius: "50%", boxShadow: 1 }}
           >
@@ -71,7 +72,7 @@ const AuthPage = () => {
         >
           {currentView === "register" && (
             <Register
-              onSwitchToLogin={() => setCurrentView("login")}
+              onSwitchToLogin={() => handleSwitchView("login")}
               onRegisterSuccess={(identifier) =>
                 handleAuthSuccess(identifier, "register")
               }
@@ -79,7 +80,7 @@ const AuthPage = () => {
           )}
           {currentView === "login" && (
             <Login
-              onSwitchToRegister={() => setCurrentView("register")}
+              onSwitchToRegister={() => handleSwitchView("register")}
               onLoginSuccess={(identifier) =>
                 handleAuthSuccess(identifier, "login")
               }
