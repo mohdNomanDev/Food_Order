@@ -2,7 +2,11 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
+
+// Import App Routes
+import OrderingRoutes from "./apps/ordering/OrderingRoutes";
+import AdminRoutes from "./apps/admin/AdminRoutes";
+import FoodListingRoutes from "./apps/food-listing/FoodListingRoutes";
 
 /**
  * App Component
@@ -45,14 +49,16 @@ function App() {
       {/* BrowserRouter provides the navigation context for hooks like useNavigate */}
       <BrowserRouter>
         <Routes>
-          {/* Default Route: Authentication Page */}
-          <Route path="/" element={<AuthPage />} />
+          {/* Main App Routes */}
+          <Route path="/ordering/*" element={<OrderingRoutes />} />
+          <Route path="/admin/*" element={<AdminRoutes />} />
+          <Route path="/foodlisting/*" element={<FoodListingRoutes />} />
           
-          {/* Placeholder for Home Page after login */}
-          <Route path="/home" element={<div style={{ padding: '20px' }}>Welcome Home! (Dashboard Placeholder)</div>} />
+          {/* Default Redirect from / to /ordering */}
+          <Route path="/" element={<Navigate to="/ordering" replace />} />
           
-          {/* Redirect any unknown routes to Auth Page */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Redirect any unknown routes to /ordering */}
+          <Route path="*" element={<Navigate to="/ordering" replace />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
